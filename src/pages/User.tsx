@@ -22,6 +22,8 @@ const User: React.FC = () => {
     event.preventDefault();
     setName("");
     setPreference(null);
+    window.localStorage.removeItem("name");
+    window.localStorage.removeItem("preference");
   };
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
