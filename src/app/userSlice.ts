@@ -33,7 +33,6 @@ export const userSlice = createSlice({
 });
 
 export const { updateName, updatePreference } = userSlice.actions;
-// Other code such as selectors can use the imported `RootState` type
 export const selectName = (state: RootState) => state.user.name;
 export const selectPreference = (state: RootState) => state.user.preference;
 

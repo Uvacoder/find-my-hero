@@ -9,7 +9,6 @@ const User: React.FC = () => {
   const dispatch = useAppDispatch();
   const [name, setName] = useState<string>("");
   const [preference, setPreference] = useState<Preference | null>(null);
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(updateName(name));
@@ -51,7 +50,6 @@ const User: React.FC = () => {
       setPreference(sessionStoredPreference);
     }
   }, []);
-
   useEffect(() => {
     window.localStorage.setItem("name", name);
     if (preference) {
@@ -120,5 +118,4 @@ const User: React.FC = () => {
     </MainWrapper>
   );
 };
-
 export default User;

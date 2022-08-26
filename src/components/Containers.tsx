@@ -9,16 +9,20 @@ export const MainWrapper = styled.main`
     margin-top: 1rem;
   }
 `;
-interface FlexContainer {
-  scrollable?: boolean;
+interface FlexContainerProps {
+  scrollable: "x" | "y" | false;
 }
-export const FlexContainer = styled.section<FlexContainer>`
+export const FlexContainer = styled.section<FlexContainerProps>`
   .row {
     display: flex;
-    ${(scrollable) =>
-      scrollable &&
-      `overflow-x: scroll;
+    ${(props) =>
+      props.scrollable === "x"
+        ? `overflow-x: scroll;
        -webkit-box-pack: justify;
-       justify-content: space-between;`}
+       justify-content: space-between;`
+        : props.scrollable === "y"
+        ? `overflow-y: scroll;-webkit-box-pack: justify;
+       justify-content: space-between;`
+        : null}
   }
 `;

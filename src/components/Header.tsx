@@ -1,9 +1,11 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const Header: React.FC = () => {
   return (
     <header>
-      <h1>Find My Hero</h1>
+      <h1>
+        <Link to='/'>Find My Hero</Link>
+      </h1>
     </header>
   );
 };
