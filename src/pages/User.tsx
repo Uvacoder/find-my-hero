@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "app/hooks";
 import { MainWrapper } from "components/Containers";
@@ -35,6 +35,27 @@ const User: React.FC = () => {
       setPreference(event.target.value);
     }
   };
+  useEffect(() => {
+    const sessionStoredName = window.localStorage.getItem("name");
+    if (sessionStoredName) {
+      setName(sessionStoredName);
+    }
+    const sessionStoredPreference = window.localStorage.getItem("preference");
+    if (
+      sessionStoredPreference === Preference.comics ||
+      sessionStoredPreference === Preference.series ||
+      sessionStoredPreference === Preference.stories
+    ) {
+      setPreference(sessionStoredPreference);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("name", name);
+    if (preference) {
+      window.localStorage.setItem("preference", preference);
+    }
+  }, [name, preference]);
   return (
     <MainWrapper>
       <h2>Tell Us About You</h2>
