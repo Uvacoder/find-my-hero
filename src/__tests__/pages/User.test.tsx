@@ -1,15 +1,12 @@
-import { cleanup, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import User from "pages/User";
 import userEvent from "@testing-library/user-event";
-import { renderWithProviders } from "test-utils";
+import { cleanUpTests, renderWithProviders } from "test-utils";
 
 describe("User Page", () => {
-  afterEach(() => {
-    cleanup();
-    window.localStorage.clear();
-  });
+  cleanUpTests();
   it("matches snapshot", () => {
-    const { container } = renderWithProviders(User);
+    const { container } = renderWithProviders(<User />);
     expect(container).toMatchInlineSnapshot(`
 <div>
   <main
@@ -95,20 +92,20 @@ describe("User Page", () => {
 `);
   });
   it("starts with a blank input for a users name", () => {
-    renderWithProviders(User);
+    renderWithProviders(<User />);
     const nameInput = screen.getByRole("textbox", { name: /your name/i });
     expect(nameInput).toHaveTextContent("");
   });
   it("allows users to type in their name", () => {
     const userName = "Chuck Norris";
-    renderWithProviders(User);
+    renderWithProviders(<User />);
     const nameInput = screen.getByRole("textbox", { name: /your name/i });
     userEvent.type(nameInput, userName);
     expect(nameInput).toHaveValue(userName);
     userEvent.clear(nameInput);
   });
   it("allows users to select only one preference", () => {
-    renderWithProviders(User);
+    renderWithProviders(<User />);
     const preferences = screen.getAllByRole("radio");
     userEvent.click(preferences[0]);
     expect(preferences[0]).toBeChecked();
@@ -124,19 +121,19 @@ describe("User Page", () => {
   it("gets the users name from local storage", async () => {
     const userName = "John Doe";
     localStorage.setItem("name", userName);
-    renderWithProviders(User);
+    renderWithProviders(<User />);
     const nameInput = screen.getByRole("textbox", { name: /your name/i });
     expect(nameInput).toHaveValue(userName);
   });
   it("gets the users preference from local storage", async () => {
     const userPreference = "comics";
     localStorage.setItem("preference", userPreference);
-    renderWithProviders(User);
+    renderWithProviders(<User />);
     const radioInput = screen.getByRole("radio", { name: /comics/i });
     expect(radioInput).toBeChecked();
   });
   it("allows users to all fields", () => {
-    renderWithProviders(User);
+    renderWithProviders(<User />);
     const userInput = "fjsdkfljsdkl";
     const nameInput = screen.getByRole("textbox", { name: /your name/i });
     const clearButton = screen.getByRole("button", { name: /clear/i });
@@ -152,7 +149,7 @@ describe("User Page", () => {
     expect(randomPreference).not.toBeChecked();
   });
   it("does not allow users to progress if all inputs are blank", () => {
-    renderWithProviders(User);
+    renderWithProviders(<User />);
     const submitButton = screen.getByRole("button", {
       name: /next/i,
     });

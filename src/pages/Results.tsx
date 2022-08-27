@@ -1,6 +1,6 @@
 import { useAppSelector } from "app/hooks";
 import { selectName, selectPreference } from "app/userSlice";
-import { FlexContainer, MainWrapper } from "components/Containers";
+import { MainWrapper } from "components/Containers";
 import React from "react";
 import { Link } from "react-router-dom";
 

@@ -5,7 +5,7 @@ import { renderWithProviders } from "test-utils";
 
 describe("Home Page", () => {
   it("matches snapshot", () => {
-    const { container } = renderWithProviders(Home);
+    const { container } = renderWithProviders(<Home />);
     expect(container).toMatchInlineSnapshot(`
 <div>
   <main
@@ -21,7 +21,7 @@ describe("Home Page", () => {
 `);
   });
   it("gives users an option to proceed", async () => {
-    renderWithProviders(Home);
+    renderWithProviders(<Home />);
     const startElement = await screen.findByRole("button");
     userEvent.click(startElement);
     expect(window.location.href).toBe("http://localhost/user");
