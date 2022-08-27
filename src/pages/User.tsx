@@ -70,22 +70,24 @@ const User: React.FC = () => {
               handleNameChange(e);
             }}
             value={name}
+            pattern='[a-zA-Z]*'
           />
         </div>
         <div className='form-control'>
-          <label htmlFor='name'>What Do You Like More</label>
+          <p>What Do You Like More</p>
           <div>
             <input
               onChange={(e) => {
                 handlePreference(e);
               }}
               type='radio'
-              name='preference'
               value='comics'
+              id='comics'
               required
+              name='preference'
               checked={preference === "comics"}
             />
-            Comics
+            <label htmlFor='comics'>Comics</label>
             <input
               onChange={(e) => {
                 handlePreference(e);
@@ -93,9 +95,10 @@ const User: React.FC = () => {
               type='radio'
               name='preference'
               value='series'
+              id='series'
               checked={preference === "series"}
             />
-            Series
+            <label htmlFor='series'>Series</label>
             <input
               onChange={(e) => {
                 handlePreference(e);
@@ -103,16 +106,17 @@ const User: React.FC = () => {
               type='radio'
               name='preference'
               value='stories'
+              id='stories'
               checked={preference === "stories"}
             />
-            Stories
+            <label htmlFor='stories'>Stories</label>
           </div>
         </div>
         <button type='reset' onClick={(e) => handleClear(e)}>
           Clear
         </button>
         <button type='submit' disabled={!name || !preference}>
-          Next Step
+          Next
         </button>
       </form>
     </MainWrapper>
