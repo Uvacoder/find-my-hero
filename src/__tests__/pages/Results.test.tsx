@@ -2,6 +2,7 @@ import Results from "pages/Results";
 import { cleanUpTests, renderWithProviders } from "test-utils";
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { Preference } from "app/userSlice";
 
 describe("Results Page", () => {
   cleanUpTests();
@@ -33,5 +34,13 @@ describe("Results Page", () => {
     const linkEl = screen.getByRole("link", { name: /go back/i });
     userEvent.click(linkEl);
     expect(window.location.pathname).toContain("/user");
+  });
+  it("provides users with a personalized greeting based on their name preference", () => {
+    const userName = "John Doe";
+    const preference = Preference.series;
+    const user = { user: { name: userName, preference } };
+    const { container } = renderWithProviders(<Results />, user);
+    expect(container).toHaveTextContent(userName);
+    expect(container).toHaveTextContent(preference);
   });
 });

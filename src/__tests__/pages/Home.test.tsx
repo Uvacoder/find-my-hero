@@ -1,9 +1,10 @@
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Home from "pages/Home";
-import { renderWithProviders } from "test-utils";
+import { cleanUpTests, renderWithProviders } from "test-utils";
 
 describe("Home Page", () => {
+  cleanUpTests();
   it("matches snapshot", () => {
     const { container } = renderWithProviders(<Home />);
     expect(container).toMatchInlineSnapshot(`

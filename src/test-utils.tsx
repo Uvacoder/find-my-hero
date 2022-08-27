@@ -7,18 +7,6 @@ import React from "react";
 import { RootState } from "app/store";
 import { BrowserRouter } from "react-router-dom";
 
-// export const renderWithProviders = (Component: React.FC) => {
-//   return render(
-//     <Provider store={store}>
-//       <ThemeProvider theme={defaultTheme}>
-//         <BrowserRouter>
-//           <Component />
-//         </BrowserRouter>
-//       </ThemeProvider>
-//     </Provider>
-//   );
-// };
-
 export const cleanUpTests = () => {
   afterEach(() => {
     cleanup();

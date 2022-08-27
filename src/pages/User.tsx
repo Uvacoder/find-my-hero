@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "app/hooks";
 import { MainWrapper } from "components/Containers";
 import { Preference, updateName, updatePreference } from "app/userSlice";
+import {
+  getCharacterByURI,
+  getDataByPreference,
+} from "services/marvelRequests";
 
 const User: React.FC = () => {
   const navigate = useNavigate();
@@ -13,6 +17,8 @@ const User: React.FC = () => {
     event.preventDefault();
     dispatch(updateName(name));
     dispatch(updatePreference(preference));
+    preference && getDataByPreference(preference);
+    getCharacterByURI("http://gateway.marvel.com/v1/public/characters/1009610");
     navigate("/results");
   };
   const handleClear = (
