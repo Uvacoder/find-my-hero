@@ -8,8 +8,8 @@ export const getDataByPreference = async (
 ) => {
   const authParams = generateMarvelParams();
   const request = await fetch(`${baseURL}${preference}?${authParams}`);
-  const response = await request.json();
-  console.log(response);
+  const data = await request.json();
+  return data;
 };
 
 export const getCharacterByURI = async (uri: string) => {
