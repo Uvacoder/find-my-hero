@@ -1,17 +1,19 @@
 import { useAppSelector } from "app/hooks";
-import { selectName } from "app/userSlice";
+import { selectName, selectPreference } from "app/userSlice";
 import { FlexContainer, MainWrapper } from "components/Containers";
 import React from "react";
 import { Link } from "react-router-dom";
 
 const Results: React.FC = () => {
   const name = useAppSelector(selectName);
+  const preference = useAppSelector(selectPreference);
   return (
     <MainWrapper>
       {/* Greeting */}
-      {name ? (
+      {name && preference ? (
         <div>
-          Hey {name} We found {}X Results based on your preference
+          Hey {name} We found {}X Results based on your preference for{" "}
+          {preference};
         </div>
       ) : (
         <div>
