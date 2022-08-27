@@ -3,7 +3,9 @@ import { generateMarvelParams } from "./marvelConfig";
 
 const baseURL = "https://gateway.marvel.com:443/v1/public/";
 
-export const getDataByPreference = async (preference: Preference) => {
+export const getDataByPreference = async (
+  preference: Preference = Preference.comics
+) => {
   const authParams = generateMarvelParams();
   const request = await fetch(`${baseURL}${preference}?${authParams}`);
   const response = await request.json();
