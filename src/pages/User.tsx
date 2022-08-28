@@ -6,6 +6,7 @@ import { Preference, updateName, updatePreference } from "app/userSlice";
 import {
   getCharacterByURI,
   getDataByPreference,
+  MarvelResult,
 } from "services/marvelRequests";
 
 const User: React.FC = () => {
@@ -13,12 +14,21 @@ const User: React.FC = () => {
   const dispatch = useAppDispatch();
   const [name, setName] = useState<string>("");
   const [preference, setPreference] = useState<Preference | null>(null);
+  let results: MarvelResult[];
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(updateName(name));
     dispatch(updatePreference(preference));
-    preference && getDataByPreference(preference);
-    getCharacterByURI("http://gateway.marvel.com/v1/public/characters/1009610");
+    if (preference) {
+      getDataByPreference(preference)
+        .then((response) => {
+          console.log(response);
+          results = response;
+        })
+        .catch((error) => console.error(error));
+    }
+    console.log(results);
+    // getCharacterByURI("http://gateway.marvel.com/v1/public/characters/1009610");
     navigate("/results");
   };
   const handleClear = (
