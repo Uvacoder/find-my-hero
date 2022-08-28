@@ -9,9 +9,10 @@ main {
   display: block;
 }
 
-main {
-  display: flex;
-  align-items: center;
+img {
+  width: 100%;
+  object-fit: cover;
+  object-position: bottom;
 }
 
 a {

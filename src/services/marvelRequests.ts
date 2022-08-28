@@ -8,11 +8,9 @@ export const getDataByPreference = async (
 ) => {
   const authParams = generateMarvelParams();
   const response = await fetch(`${baseURL}${preference}?${authParams}`);
-
   const { data, message }: MarvelJSONResponseData = await response.json();
   if (data) {
-    const results = data.results;
-    return results;
+    return data;
   } else {
     return Promise.reject(
       new Error(

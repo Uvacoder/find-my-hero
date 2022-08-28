@@ -26,13 +26,16 @@ export const resultsSlice = createSlice({
     updateCount: (state, action: PayloadAction<number>) => {
       state.count = action.payload;
     },
-    updateOffset: (state, action: PayloadAction<number>) => {
+    updateOffset: (state) => {
       state.offset = state.offset + state.count;
+    },
+    clearResults: (state) => {
+      state.results = null;
     },
   },
 });
 
-export const { updateResults, updateCount, updateOffset } =
+export const { updateResults, updateCount, updateOffset, clearResults } =
   resultsSlice.actions;
 export const selectCount = (state: RootState) => state.results.count;
 export const selectOffset = (state: RootState) => state.results.offset;
