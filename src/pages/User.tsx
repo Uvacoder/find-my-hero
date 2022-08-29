@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { MainWrapper } from "components/Containers";
-import { Preference, updateName, updatePreference } from "app/userSlice";
+import {
+  Preference,
+  selectName,
+  selectPreference,
+  updateName,
+  updatePreference,
+} from "app/userSlice";
 import { getDataByPreference } from "services/marvelRequests";
 import { clearResults, updateCount, updateResults } from "app/resultsSlice";
 
@@ -11,22 +17,23 @@ const User: React.FC = () => {
   const dispatch = useAppDispatch();
   const [name, setName] = useState<string>("");
   const [preference, setPreference] = useState<Preference | null>(null);
+  const storedName = useAppSelector(selectName);
+  const storedPreference = useAppSelector(selectPreference);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(updateName(name));
     dispatch(updatePreference(preference));
     if (preference) {
       dispatch(clearResults);
-      window.localStorage.removeItem("results");
       getDataByPreference(preference)
         .then((data) => {
           console.log(data);
-          window.localStorage.setItem("results", JSON.stringify(data));
           dispatch(updateCount(data.count));
           dispatch(updateResults(data.results));
         })
         .catch((error) => console.error(error));
     }
+    console.log(storedName, storedPreference);
     navigate("/results");
   };
   const handleClear = (
@@ -35,8 +42,6 @@ const User: React.FC = () => {
     event.preventDefault();
     setName("");
     setPreference(null);
-    window.localStorage.removeItem("name");
-    window.localStorage.removeItem("preference");
   };
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -50,26 +55,7 @@ const User: React.FC = () => {
       setPreference(event.target.value);
     }
   };
-  useEffect(() => {
-    const sessionStoredName = window.localStorage.getItem("name");
-    if (sessionStoredName) {
-      setName(sessionStoredName);
-    }
-    const sessionStoredPreference = window.localStorage.getItem("preference");
-    if (
-      sessionStoredPreference === Preference.comics ||
-      sessionStoredPreference === Preference.series ||
-      sessionStoredPreference === Preference.stories
-    ) {
-      setPreference(sessionStoredPreference);
-    }
-  }, []);
-  useEffect(() => {
-    window.localStorage.setItem("name", name);
-    if (preference) {
-      window.localStorage.setItem("preference", preference);
-    }
-  }, [name, preference]);
+  useEffect(() => {}, []);
   return (
     <MainWrapper>
       <h2>Tell Us About You</h2>

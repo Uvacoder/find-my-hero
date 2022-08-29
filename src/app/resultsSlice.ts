@@ -6,14 +6,14 @@ import { MarvelResult } from "services/marvelRequests";
 interface resultsState {
   count: number;
   offset: number;
-  results: MarvelResult[] | null;
+  results: MarvelResult[] | [];
 }
 
 // Define the initial state using that type
 const initialState: resultsState = {
   count: 0,
   offset: 0,
-  results: null,
+  results: [],
 };
 
 export const resultsSlice = createSlice({
@@ -30,7 +30,7 @@ export const resultsSlice = createSlice({
       state.offset = state.offset + state.count;
     },
     clearResults: (state) => {
-      state.results = null;
+      state.results = [];
     },
   },
 });

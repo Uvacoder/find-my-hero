@@ -1,11 +1,11 @@
-import { useAppSelector } from "app/hooks";
-import { selectResults } from "app/resultsSlice";
-import { Preference } from "app/userSlice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { selectResults, updateCount, updateResults } from "app/resultsSlice";
+import { Preference, selectName, selectPreference } from "app/userSlice";
 import { MainWrapper } from "components/Containers";
 import ResultCard from "components/ResultCard";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MarvelResult } from "services/marvelRequests";
+import { getDataByPreference, MarvelResult } from "services/marvelRequests";
 
 export type StoredData = {
   count: number;
@@ -15,62 +15,48 @@ export type StoredData = {
   total: number;
 };
 
-const parseJsonAsync = async (jsonString: string) => {
-  const jsonObj = await JSON.parse(jsonString);
-  return jsonObj;
-};
 const Results: React.FC = () => {
-  const storeResults = useAppSelector(selectResults);
-  const [name, setName] = useState<string>("");
-  const [preference, setPreference] = useState<Preference | null>(null);
-  const [results, setResults] = useState<MarvelResult[] | null>(storeResults);
-
+  const name = useAppSelector(selectName);
+  const preference = useAppSelector(selectPreference);
+  const results = useAppSelector(selectResults);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    const sessionStoredName = window.localStorage.getItem("name");
-    if (sessionStoredName) {
-      setName(sessionStoredName);
+    if (results) {
+      console.log(name, preference);
+      return;
+    } else {
+      if (name && preference) {
+        getDataByPreference(preference)
+          .then((data) => {
+            console.log(data);
+            dispatch(updateCount(data.count));
+            dispatch(updateResults(data.results));
+          })
+          .catch((error) => console.error(error));
+      }
     }
-    const sessionStoredPreference = window.localStorage.getItem("preference");
-    if (
-      sessionStoredPreference === Preference.comics ||
-      sessionStoredPreference === Preference.series ||
-      sessionStoredPreference === Preference.stories
-    ) {
-      setPreference(sessionStoredPreference);
-    }
-    const sessionStoredResults = window.localStorage.getItem("results");
-    if (sessionStoredResults) {
-      parseJsonAsync(sessionStoredResults)
-        .then((response: StoredData) => setResults(response.results))
-        .catch((error) => console.error(error));
-    }
-  }, []);
-
+  }, [dispatch, name, preference, results]);
   return (
-    <>
-      {/* Greeting */}
-      {name && preference ? (
-        <MainWrapper>
-          <p>
-            Hey {name} We found {}X Results based on your preference for{" "}
-            {preference};
-          </p>
-          <section id='results'>
-            {results &&
-              results.map((result) => (
-                <ResultCard key={result.id} result={result} />
-              ))}
-          </section>
-        </MainWrapper>
+    <MainWrapper>
+      {name === "" || preference === null ? (
+        <div>
+          Hey please <Link to='/user'>go back</Link> a step and fill in your
+          information
+        </div>
+      ) : !results ? (
+        <div>Loading</div>
       ) : (
-        <MainWrapper>
-          <div>
-            Hey please <Link to='/user'>go back</Link> a step and fill in your
-            information
-          </div>
-        </MainWrapper>
+        <div>
+          hey {name} we found {results.length} results based on your preference
+          for {preference}
+          <section className='results'>
+            {results.map((result) => (
+              <ResultCard result={result} />
+            ))}
+          </section>
+        </div>
       )}
-    </>
+    </MainWrapper>
   );
 };
 

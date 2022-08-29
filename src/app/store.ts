@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
 import resultsReducer from "./resultsSlice";
 import {
@@ -18,13 +18,11 @@ const persistConfig = {
   storage,
 };
 
-const persistedUserReducer = persistReducer(persistConfig, userReducer);
-const persistedResultsReducer = persistReducer(persistConfig, resultsReducer);
-const persistedReducer = {
-  user: persistedUserReducer,
-  results: persistedResultsReducer,
-};
-
+const rootReducer = combineReducers({
+  user: userReducer,
+  results: resultsReducer,
+});
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
