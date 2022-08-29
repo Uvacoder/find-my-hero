@@ -120,14 +120,12 @@ describe("User Page", () => {
   });
   it("gets the users name from local storage", async () => {
     const userName = "John Doe";
-    localStorage.setItem("name", userName);
     renderWithProviders(<User />);
     const nameInput = screen.getByRole("textbox", { name: /your name/i });
     expect(nameInput).toHaveValue(userName);
   });
   it("gets the users preference from local storage", async () => {
     const userPreference = "comics";
-    localStorage.setItem("preference", userPreference);
     renderWithProviders(<User />);
     const radioInput = screen.getByRole("radio", { name: /comics/i });
     expect(radioInput).toBeChecked();

@@ -29,10 +29,14 @@ export const userSlice = createSlice({
     updatePreference: (state, action: PayloadAction<Preference | null>) => {
       state.preference = action.payload;
     },
+    clearUser: (state) => {
+      state.name = "";
+      state.preference = null;
+    },
   },
 });
 
-export const { updateName, updatePreference } = userSlice.actions;
+export const { updateName, updatePreference, clearUser } = userSlice.actions;
 export const selectName = (state: RootState) => state.user.name;
 export const selectPreference = (state: RootState) => state.user.preference;
 

@@ -6,11 +6,12 @@ import { getStoreWithState } from "app/store";
 import React from "react";
 import { RootState } from "app/store";
 import { BrowserRouter } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
+import persistStore from "redux-persist/lib/persistStore";
 
 export const cleanUpTests = () => {
   afterEach(() => {
     cleanup();
-    window.localStorage.clear();
   });
 };
 
@@ -19,11 +20,14 @@ export const renderWithProviders = (
   state?: RootState
 ) => {
   const store = getStoreWithState(state);
+  let persistor = persistStore(store);
   const utils = render(
     <Provider store={store}>
-      <BrowserRouter>
-        <ThemeProvider theme={defaultTheme}>{element}</ThemeProvider>
-      </BrowserRouter>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <ThemeProvider theme={defaultTheme}>{element}</ThemeProvider>
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   );
   return { store, ...utils };
