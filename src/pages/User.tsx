@@ -21,6 +21,14 @@ const User: React.FC = () => {
   const [preference, setPreference] = useState<Preference | null>(
     storedPreference
   );
+  useEffect(() => {
+    if (storedName) {
+      setName(storedName);
+    }
+    if (storedPreference) {
+      setPreference(storedPreference);
+    }
+  }, [storedName, storedPreference]);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(updateName(name));
@@ -55,7 +63,6 @@ const User: React.FC = () => {
       setPreference(event.target.value);
     }
   };
-  useEffect(() => {}, []);
   return (
     <MainWrapper>
       <h2>Tell Us About You</h2>
