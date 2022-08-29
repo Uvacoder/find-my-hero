@@ -15,10 +15,12 @@ import { clearResults, updateCount, updateResults } from "app/resultsSlice";
 const User: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [name, setName] = useState<string>("");
-  const [preference, setPreference] = useState<Preference | null>(null);
   const storedName = useAppSelector(selectName);
   const storedPreference = useAppSelector(selectPreference);
+  const [name, setName] = useState<string>(storedName);
+  const [preference, setPreference] = useState<Preference | null>(
+    storedPreference
+  );
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(updateName(name));
