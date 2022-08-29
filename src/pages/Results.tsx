@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { selectResults, updateCount, updateResults } from "app/resultsSlice";
-import { Preference, selectName, selectPreference } from "app/userSlice";
+import { selectName, selectPreference } from "app/userSlice";
 import { MainWrapper } from "components/Containers";
 import ResultCard from "components/ResultCard";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getDataByPreference, MarvelResult } from "services/marvelRequests";
 
