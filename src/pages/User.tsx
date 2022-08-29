@@ -27,13 +27,11 @@ const User: React.FC = () => {
       dispatch(clearResults);
       getDataByPreference(preference)
         .then((data) => {
-          console.log(data);
           dispatch(updateCount(data.count));
           dispatch(updateResults(data.results));
         })
         .catch((error) => console.error(error));
     }
-    console.log(storedName, storedPreference);
     navigate("/results");
   };
   const handleClear = (

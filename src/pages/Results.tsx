@@ -22,13 +22,11 @@ const Results: React.FC = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (results) {
-      console.log(name, preference);
       return;
     } else {
       if (name && preference) {
         getDataByPreference(preference)
           .then((data) => {
-            console.log(data);
             dispatch(updateCount(data.count));
             dispatch(updateResults(data.results));
           })
